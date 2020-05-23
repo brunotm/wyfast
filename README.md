@@ -4,6 +4,8 @@ wyfast is a small 64-bit non-cryptographic hash function.
 
 It is a simpler and faster variation of [wyhash v5](https://github.com/wangyi-fudan/wyhash).
 
+This repository hosts both the C implementation [src/wyfast.h](./src/wyfast.h) and the Go implementation [go/wyfast.go](go/wyfast.go).
+
 ## Performance
 
 * Full [smhasher log](./doc/smhasher.txt)
