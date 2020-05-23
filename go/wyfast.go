@@ -23,34 +23,37 @@ func Sum64(key []byte, seed uint64) uint64 {
 		return wymix(mulm64(wyp0, seed), wyp4)
 	}
 
-	for ; len(p) > 256; p = p[256:] {
-		seed = mulm64(binary.LittleEndian.Uint64(p[0:8])^wyp0, binary.LittleEndian.Uint64(p[8:16])^seed) ^
-			mulm64(binary.LittleEndian.Uint64(p[16:24])^wyp1, binary.LittleEndian.Uint64(p[24:32])^seed) ^
-			mulm64(binary.LittleEndian.Uint64(p[32:40])^wyp2, binary.LittleEndian.Uint64(p[40:48])^seed) ^
-			mulm64(binary.LittleEndian.Uint64(p[48:56])^wyp3, binary.LittleEndian.Uint64(p[56:64])^seed)
+	if len(p) > 64 {
 
-		seed = mulm64(binary.LittleEndian.Uint64(p[64:72])^wyp0, binary.LittleEndian.Uint64(p[72:80])^seed) ^
-			mulm64(binary.LittleEndian.Uint64(p[80:88])^wyp1, binary.LittleEndian.Uint64(p[88:96])^seed) ^
-			mulm64(binary.LittleEndian.Uint64(p[96:104])^wyp2, binary.LittleEndian.Uint64(p[104:112])^seed) ^
-			mulm64(binary.LittleEndian.Uint64(p[112:120])^wyp3, binary.LittleEndian.Uint64(p[120:128])^seed)
+		for ; len(p) > 256; p = p[256:] {
+			seed = mulm64(binary.LittleEndian.Uint64(p[0:8])^wyp0, binary.LittleEndian.Uint64(p[8:16])^seed) ^
+				mulm64(binary.LittleEndian.Uint64(p[16:24])^wyp1, binary.LittleEndian.Uint64(p[24:32])^seed) ^
+				mulm64(binary.LittleEndian.Uint64(p[32:40])^wyp2, binary.LittleEndian.Uint64(p[40:48])^seed) ^
+				mulm64(binary.LittleEndian.Uint64(p[48:56])^wyp3, binary.LittleEndian.Uint64(p[56:64])^seed)
 
-		seed = mulm64(binary.LittleEndian.Uint64(p[128:136])^wyp0, binary.LittleEndian.Uint64(p[136:144])^seed) ^
-			mulm64(binary.LittleEndian.Uint64(p[144:152])^wyp1, binary.LittleEndian.Uint64(p[152:160])^seed) ^
-			mulm64(binary.LittleEndian.Uint64(p[160:168])^wyp2, binary.LittleEndian.Uint64(p[168:176])^seed) ^
-			mulm64(binary.LittleEndian.Uint64(p[176:184])^wyp3, binary.LittleEndian.Uint64(p[184:192])^seed)
+			seed = mulm64(binary.LittleEndian.Uint64(p[64:72])^wyp0, binary.LittleEndian.Uint64(p[72:80])^seed) ^
+				mulm64(binary.LittleEndian.Uint64(p[80:88])^wyp1, binary.LittleEndian.Uint64(p[88:96])^seed) ^
+				mulm64(binary.LittleEndian.Uint64(p[96:104])^wyp2, binary.LittleEndian.Uint64(p[104:112])^seed) ^
+				mulm64(binary.LittleEndian.Uint64(p[112:120])^wyp3, binary.LittleEndian.Uint64(p[120:128])^seed)
 
-		seed = mulm64(binary.LittleEndian.Uint64(p[192:200])^wyp0, binary.LittleEndian.Uint64(p[200:208])^seed) ^
-			mulm64(binary.LittleEndian.Uint64(p[208:216])^wyp1, binary.LittleEndian.Uint64(p[216:224])^seed) ^
-			mulm64(binary.LittleEndian.Uint64(p[224:232])^wyp2, binary.LittleEndian.Uint64(p[232:240])^seed) ^
-			mulm64(binary.LittleEndian.Uint64(p[240:248])^wyp3, binary.LittleEndian.Uint64(p[248:256])^seed)
-	}
+			seed = mulm64(binary.LittleEndian.Uint64(p[128:136])^wyp0, binary.LittleEndian.Uint64(p[136:144])^seed) ^
+				mulm64(binary.LittleEndian.Uint64(p[144:152])^wyp1, binary.LittleEndian.Uint64(p[152:160])^seed) ^
+				mulm64(binary.LittleEndian.Uint64(p[160:168])^wyp2, binary.LittleEndian.Uint64(p[168:176])^seed) ^
+				mulm64(binary.LittleEndian.Uint64(p[176:184])^wyp3, binary.LittleEndian.Uint64(p[184:192])^seed)
 
-	for ; len(p) > 64; p = p[64:] {
-		seed = mulm64(binary.LittleEndian.Uint64(p[0:8])^wyp0, binary.LittleEndian.Uint64(p[8:16])^seed) ^
-			mulm64(binary.LittleEndian.Uint64(p[16:24])^wyp1, binary.LittleEndian.Uint64(p[24:32])^seed) ^
-			mulm64(binary.LittleEndian.Uint64(p[32:40])^wyp2, binary.LittleEndian.Uint64(p[40:48])^seed) ^
-			mulm64(binary.LittleEndian.Uint64(p[48:56])^wyp3, binary.LittleEndian.Uint64(p[56:64])^seed)
+			seed = mulm64(binary.LittleEndian.Uint64(p[192:200])^wyp0, binary.LittleEndian.Uint64(p[200:208])^seed) ^
+				mulm64(binary.LittleEndian.Uint64(p[208:216])^wyp1, binary.LittleEndian.Uint64(p[216:224])^seed) ^
+				mulm64(binary.LittleEndian.Uint64(p[224:232])^wyp2, binary.LittleEndian.Uint64(p[232:240])^seed) ^
+				mulm64(binary.LittleEndian.Uint64(p[240:248])^wyp3, binary.LittleEndian.Uint64(p[248:256])^seed)
+		}
 
+		for ; len(p) > 64; p = p[64:] {
+			seed = mulm64(binary.LittleEndian.Uint64(p[0:8])^wyp0, binary.LittleEndian.Uint64(p[8:16])^seed) ^
+				mulm64(binary.LittleEndian.Uint64(p[16:24])^wyp1, binary.LittleEndian.Uint64(p[24:32])^seed) ^
+				mulm64(binary.LittleEndian.Uint64(p[32:40])^wyp2, binary.LittleEndian.Uint64(p[40:48])^seed) ^
+				mulm64(binary.LittleEndian.Uint64(p[48:56])^wyp3, binary.LittleEndian.Uint64(p[56:64])^seed)
+
+		}
 	}
 
 	if len(p) > 0 {

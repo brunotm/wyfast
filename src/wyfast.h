@@ -89,33 +89,35 @@ static inline uint64_t wyfast(const void* key, uint64_t len, uint64_t seed){
 		return wymix(mulm64(wyp0, seed), wyp4);
 	}
 
-	for(; i>=256; i-=256, p+=256){
-		seed = mulm64(read8(p)^wyp0, read8(p+8)^seed)^
-			mulm64(read8(p+16)^wyp1, read8(p+24)^seed)^
-			mulm64(read8(p+32)^wyp2, read8(p+40)^seed)^
-			mulm64(read8(p+48)^wyp3, read8(p+56)^seed);
+	if (i > 64) {
+		for(; i>=256; i-=256, p+=256){
+			seed = mulm64(read8(p)^wyp0, read8(p+8)^seed)^
+				mulm64(read8(p+16)^wyp1, read8(p+24)^seed)^
+				mulm64(read8(p+32)^wyp2, read8(p+40)^seed)^
+				mulm64(read8(p+48)^wyp3, read8(p+56)^seed);
 
-		seed = mulm64(read8(p+64)^wyp0, read8(p+72)^seed)^
-			mulm64(read8(p+80)^wyp1, read8(p+88)^seed)^
-			mulm64(read8(p+96)^wyp2, read8(p+104)^seed)^
-			mulm64(read8(p+112)^wyp3, read8(p+120)^seed);
+			seed = mulm64(read8(p+64)^wyp0, read8(p+72)^seed)^
+				mulm64(read8(p+80)^wyp1, read8(p+88)^seed)^
+				mulm64(read8(p+96)^wyp2, read8(p+104)^seed)^
+				mulm64(read8(p+112)^wyp3, read8(p+120)^seed);
 
-		seed = mulm64(read8(p+128)^wyp0, read8(p+136)^seed)^
-			mulm64(read8(p+144)^wyp1, read8(p+152)^seed)^
-			mulm64(read8(p+160)^wyp2, read8(p+168)^seed)^
-			mulm64(read8(p+176)^wyp3, read8(p+184)^seed);
+			seed = mulm64(read8(p+128)^wyp0, read8(p+136)^seed)^
+				mulm64(read8(p+144)^wyp1, read8(p+152)^seed)^
+				mulm64(read8(p+160)^wyp2, read8(p+168)^seed)^
+				mulm64(read8(p+176)^wyp3, read8(p+184)^seed);
 
-		seed = mulm64(read8(p+192)^wyp0, read8(p+200)^seed)^
-			mulm64(read8(p+208)^wyp1, read8(p+216)^seed)^
-			mulm64(read8(p+224)^wyp2, read8(p+232)^seed)^
-			mulm64(read8(p+240)^wyp3, read8(p+248)^seed);
-	}
+			seed = mulm64(read8(p+192)^wyp0, read8(p+200)^seed)^
+				mulm64(read8(p+208)^wyp1, read8(p+216)^seed)^
+				mulm64(read8(p+224)^wyp2, read8(p+232)^seed)^
+				mulm64(read8(p+240)^wyp3, read8(p+248)^seed);
+		}
 
-	for(; i>=64; i-=64, p+=64){
-		seed = mulm64(read8(p)^wyp0, read8(p+8)^seed)^
-			mulm64(read8(p+16)^wyp1, read8(p+24)^seed)^
-			mulm64(read8(p+32)^wyp2, read8(p+40)^seed)^
-			mulm64(read8(p+48)^wyp3, read8(p+56)^seed);
+		for(; i>=64; i-=64, p+=64){
+			seed = mulm64(read8(p)^wyp0, read8(p+8)^seed)^
+				mulm64(read8(p+16)^wyp1, read8(p+24)^seed)^
+				mulm64(read8(p+32)^wyp2, read8(p+40)^seed)^
+				mulm64(read8(p+48)^wyp3, read8(p+56)^seed);
+		}
 	}
 
 	if (i > 0) {
