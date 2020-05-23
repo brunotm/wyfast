@@ -151,3 +151,9 @@ static inline uint64_t wyfast(const void* key, uint64_t len, uint64_t seed){
 
 	return wymix(seed^len, wyp4);
 }
+
+
+static inline uint64_t wyfast_rng(uint64_t *seed) {
+	*seed+=wyp0;
+	return mulm64(*seed^wyp1,*seed);
+}
