@@ -5,7 +5,6 @@
 
 #include <stdint.h>
 #include <string.h>
-#include <stdio.h>
 
 const uint64_t wyp0 = 0xa0761d6478bd642full;
 const uint64_t wyp1 = 0xe7037ed1a0b428dbull;
