@@ -94,6 +94,11 @@ func wymix(a, b uint64) uint64 {
 // Rng implements a pseudo-random 64-bit number generator for wyfast
 type Rng uint64
 
+// NewRng returns a Rng initialized with the given seed
+func NewRng(seed uint64) *Rng {
+	return (*Rng)(&seed)
+}
+
 // Uint64 returns a pseudo-random 64-bit value as a uint64 from the Rng.
 // It is safe to call Uint64 concurrently.
 func (r *Rng) Uint64() uint64 {
