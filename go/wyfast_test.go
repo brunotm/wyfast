@@ -17,7 +17,7 @@ func init() {
 }
 
 func TestBasicRng(t *testing.T) {
-	rng := New(fibSeed)
+	rng := NewRng(fibSeed)
 	var prev uint64
 
 	for x := 0; x < 10000; x++ {
@@ -30,7 +30,7 @@ func TestBasicRng(t *testing.T) {
 }
 
 func BenchmarkWyFastRng(b *testing.B) {
-	rng := New(fibSeed)
+	rng := NewRng(fibSeed)
 	for n := 0; n < b.N; n++ {
 		rng.Uint64()
 	}
