@@ -12,6 +12,7 @@ const (
 	wyp2 = 0x8ebc6af09c88c6e3
 	wyp3 = 0x589965cc75374cc3
 	wyp4 = 0x1d8e4e27c47d124f
+	wyp5 = 0x16069317E428CA9
 )
 
 // Sum64 returns the 64-bit wyfast hash value for the given key and seed.
@@ -104,4 +105,23 @@ func NewRng(seed uint64) *Rng {
 func (r *Rng) Uint64() uint64 {
 	x := atomic.AddUint64((*uint64)(r), wyp0)
 	return mulm64(x^wyp1, x)
+}
+
+// Read len(p) bytes from the Rng
+func (r *Rng) Read(p []byte) (n int, err error) {
+	var pos int
+	var val uint64
+
+	for n = 0; n < len(p); n++ {
+		if pos == 0 {
+			val = r.Uint64()
+			pos = 7
+		}
+
+		p[n] = byte(val)
+		val >>= 8
+		pos--
+	}
+
+	return n, nil
 }

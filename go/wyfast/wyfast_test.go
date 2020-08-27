@@ -1,14 +1,11 @@
 package wyfast
 
 import (
+	"bytes"
 	"hash/maphash"
 	"math/rand"
 	"testing"
 	"time"
-)
-
-const (
-	fibSeed = 0x16069317E428CA9
 )
 
 func init() {
@@ -16,8 +13,8 @@ func init() {
 
 }
 
-func TestBasicRng(t *testing.T) {
-	rng := NewRng(fibSeed)
+func TestRngUint64(t *testing.T) {
+	rng := NewRng(wyp5)
 	var prev uint64
 
 	for x := 0; x < 10000; x++ {
@@ -29,8 +26,27 @@ func TestBasicRng(t *testing.T) {
 	}
 }
 
+func TestRngRead(t *testing.T) {
+	rng := NewRng(wyp5)
+	size := 16
+	cur := make([]byte, size)
+	prev := make([]byte, size)
+
+	for x := 0; x < 10000; x++ {
+		n, _ := rng.Read(cur)
+		if n != size {
+			t.Fatalf("Rng wrong read cap, run=%d, expected=%d,  got=%d", x, size, n)
+		}
+
+		if bytes.Equal(cur, prev) {
+			t.Fatalf("Rng collision, run=%d, cur=%#v, prev=%#v", x, cur, prev)
+		}
+		copy(prev, cur)
+	}
+}
+
 func BenchmarkWyFastRng(b *testing.B) {
-	rng := NewRng(fibSeed)
+	rng := NewRng(wyp5)
 	for n := 0; n < b.N; n++ {
 		rng.Uint64()
 	}
@@ -74,7 +90,7 @@ func BenchmarkHash(b *testing.B) {
 		for h := 0; h < len(hashFuncs); h++ {
 			b.Run(hashFuncs[h].name+benchSet[x].name, func(b *testing.B) {
 				for n := 0; n < b.N; n++ {
-					hashFuncs[h].sum(benchSet[x].keys[n%1000], fibSeed)
+					hashFuncs[h].sum(benchSet[x].keys[n%1000], wyp5)
 					b.SetBytes(benchSet[x].keySize)
 				}
 			})
